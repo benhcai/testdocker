@@ -19,5 +19,8 @@ jobs:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Setup docker buildx builder
+        run: docker buildx create --name prod-builder && docker buildx use prod-builder
+
       - name: Build and push Docker Images
         run: docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t netpulsedev/prod:latest --push .
